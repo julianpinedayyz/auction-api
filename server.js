@@ -92,6 +92,20 @@ app.post("/auctions", (req, res) => {
         );
     });
 });
+// Get a Specific Auction
+app.get("/auctions/:id", (req, res) => {
+    const auctionId = parseInt(req.params.id, 10);
+    db.get("SELECT * FROM auctions WHERE id = ?", [auctionId], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+        } else if (!row) {
+            res.status(404).json({ error: "Auction not found" });
+        } else {
+            res.json(row);
+        }
+    });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Auction API is running on http://localhost:${PORT}`);
