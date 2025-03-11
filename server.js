@@ -129,6 +129,25 @@ app.get("/items/:id", (req, res) => {
         }
     });
 });
+// Create a new item
+app.post("/items", (req, res) => {
+    const { name, description, imageLinks } = req.body;
+
+    if (!name || !description || !imageLinks) {
+        return res.status(400).json({ error: "All fields (name, description, imageLinks) are required" });
+    }
+
+    db.run(
+        "INSERT INTO items (name, description, imageLinks) VALUES (?, ?, ?)",
+        [name, description, imageLinks],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ id: this.lastID, name, description, imageLinks });
+        }
+    );
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Auction API is running on http://localhost:${PORT}`);
