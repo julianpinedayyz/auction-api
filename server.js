@@ -105,7 +105,16 @@ app.get("/auctions/:id", (req, res) => {
         }
     });
 });
-
+// Get all items
+app.get("/items", (req, res) => {
+    db.all("SELECT * FROM items", [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+        } else {
+            res.json(rows);
+        }
+    });
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Auction API is running on http://localhost:${PORT}`);
