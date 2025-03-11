@@ -115,6 +115,20 @@ app.get("/items", (req, res) => {
         }
     });
 });
+// Get a Specific Item
+app.get("/items/:id", (req, res) => {
+    const itemId = parseInt(req.params.id, 10);
+
+    db.get("SELECT * FROM items WHERE id = ?", [itemId], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+        } else if (!row) {
+            res.status(404).json({ error: "Item not found" });
+        } else {
+            res.json(row);
+        }
+    });
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Auction API is running on http://localhost:${PORT}`);
