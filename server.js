@@ -2,12 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const db = require("./db");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve Swagger documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Get all auctions
 app.get("/auctions", (req, res) => {
@@ -151,4 +156,5 @@ app.post("/items", (req, res) => {
 // Start the server
 app.listen(PORT, () => {
     console.log(`Auction API is running on http://localhost:${PORT}`);
+    console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
 });
