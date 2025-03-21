@@ -1,6 +1,6 @@
 # Auction API
 
-A RESTful API built with Node.js, Express, and SQLite for managing an online auction system. The API handles users, items, and auctions with automatic database seeding for development.
+A RESTful API built with Node.js, Express, and SQLite for managing an online auction system.
 
 ## Features
 
@@ -29,6 +29,26 @@ npm install
 PORT=3001
 ```
 
+## API Documentation
+
+The API is documented using OpenAPI (Swagger) specification. You can view the interactive documentation by:
+
+1. Starting the server: `node server.js`
+2. Navigating to: `http://localhost:3001/api-docs`
+
+Alternatively, you can view the raw OpenAPI specification in the `swagger.json` file.
+
+## Development
+
+The project includes automatic database seeding with mock data using faker.js. The database is reset on each server start (this can be disabled by commenting out the relevant code in `db.js`).
+
+To start the server:
+```bash
+node server.js
+```
+
+The API will be available at `http://localhost:3001` (or the port specified in your .env file).
+
 ## Database Schema
 
 ### Users Table
@@ -51,56 +71,6 @@ PORT=3001
 - startingPrice (REAL)
 - status (TEXT, Default: 'active')
 
-## API Endpoints
-
-### Users
-- `GET /users` - Get all users
-- `GET /users/:id` - Get a specific user
-- `POST /users` - Create a new user
-  ```json
-  {
-    "username": "string",
-    "email": "string"
-  }
-  ```
-
-### Items
-- `GET /items` - Get all items
-- `GET /items/:id` - Get a specific item
-- `POST /items` - Create a new item
-  ```json
-  {
-    "name": "string",
-    "description": "string",
-    "imageLinks": "string"
-  }
-  ```
-
-### Auctions
-- `GET /auctions` - Get all auctions
-- `GET /auctions/:id` - Get a specific auction
-- `POST /auctions` - Create a new auction
-  ```json
-  {
-    "itemId": "number",
-    "startTime": "string",
-    "endTime": "string",
-    "creatorId": "number",
-    "startingPrice": "number"
-  }
-  ```
-
-## Development
-
-The project includes automatic database seeding with mock data using faker.js. The database is reset on each server start (this can be disabled by commenting out the relevant code in `db.js`).
-
-To start the server:
-```bash
-node server.js
-```
-
-The API will be available at `http://localhost:3001` (or the port specified in your .env file).
-
 ## Dependencies
 
 - express: Web framework
@@ -108,22 +78,23 @@ The API will be available at `http://localhost:3001` (or the port specified in y
 - @faker-js/faker: Mock data generation
 - cors: Cross-Origin Resource Sharing
 - dotenv: Environment variable management
+- swagger-ui-express: Swagger UI integration
+- swagger-jsdoc: Generate OpenAPI specs from JSDoc comments
 
 ## Project Structure
 
 ```
 .
 ├── server.js        # Main application file
-├── db.js           # Database configuration and seeding
-├── .env            # Environment variables (create this)
-├── .gitignore      # Git ignore file
-├── package.json    # Project metadata and dependencies
-└── README.md       # Project documentation
+├── db.js            # Database configuration and seeding
+├── swagger.json     # OpenAPI specification
+├── .env             # Environment variables (create this)
+├── .gitignore       # Git ignore file
+├── package.json     # Project metadata and dependencies
+└── README.md        # Project documentation
 ```
 
 ## Notes
 
 - The database file (`database.sqlite`) is automatically created when the server starts
 - The database is reset and reseeded with mock data on each server start
-- All endpoints return JSON responses
-- Error handling is implemented for all endpoints
